@@ -58,20 +58,22 @@ You can read more about event dispatcher here: http://components.symfony-project
 
 The following events can be tracked down:
 
-*   phpsweetpdo.connect.started               phpsweetpdo.connect.finished
-*   phpsweetpdo.execute.started               phpsweetpdo.execute.finished
-*   phpsweetpdo.select.started                phpsweetpdo.select.finished
-*   phpsweetpdo.get_one.value_started         phpsweetpdo.get_one_value.finished
-*   phpsweetpdo.get_one.row_started           phpsweetpdo.get_one_row.finished
-*   phpsweetpdo.begin_transaction.started     phpsweetpdo.begin_transaction.finished
-*   phpsweetpdo.commit_transaction.started    phpsweetpdo.commit_transaction.finished
-*   phpsweetpdo.rollback_transaction.started  phpsweetpdo.rollback_transaction.finished
+*    phpsweetpdo.connect.started               phpsweetpdo.connect.finished
+*    phpsweetpdo.execute.started               phpsweetpdo.execute.finished
+*    phpsweetpdo.select.started                phpsweetpdo.select.finished
+*    phpsweetpdo.get_one.value_started         phpsweetpdo.get_one_value.finished
+*    phpsweetpdo.get_one.row_started           phpsweetpdo.get_one_row.finished
+*    phpsweetpdo.begin_transaction.started     phpsweetpdo.begin_transaction.finished
+*    phpsweetpdo.commit_transaction.started    phpsweetpdo.commit_transaction.finished
+*    phpsweetpdo.rollback_transaction.started  phpsweetpdo.rollback_transaction.finished
 
 Most events is accompanied by parameters. They are mostly 'sql' (sql query which is executing), 'params' (parameters,
 passed to query), and 'driver_options' - driver options used, if any.
 
 
 ```php
+<?php
+
 public function onEvent(sfEvent $event) {
     echo $event->getName();
     $params = $event->getParameters();
