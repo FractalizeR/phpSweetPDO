@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ru.fractalizer.phpsweetpdo" default="make-phar-packages" basedir="./">
+
+    <target name="run-tests-library" description="Running all the tests">
+        <phpunit>
+            <formatter type="plain" usefile="false"/>
+            <batchtest>
+                <fileset dir="tests/Library">
+                    <include name="**/*Test*.php"/>
+                </fileset>
+            </batchtest>
+        </phpunit>
+    </target>
+
+    <target name="run-tests-phar" description="Checks if your system can use generated uncompressed phar"
+            depends="make-phar-packages">
+        <phpunit>
+            <formatter type="plain" usefile="false"/>
+            <batchtest>
+                <fileset dir="tests/Phar">
+                    <include name="**/*Test*.php"/>
+                </fileset>
+            </batchtest>
+        </phpunit>
+    </target>
+
+    <target name="make-phar-packages" description="Make autoloading phar archives">
+        <pharpackage
+                destfile="phar/phpsweetpdo.phar"
+                basedir="./phpSweetPDO"
+                stub="phing/stub.php"
+                alias="phpSweetPDO">
+            <fileset dir="./phpSweetPDO">
+                <include name="**/**"/>
+            </fileset>
+            <metadata>
+                <element name="version" value="1.0"/>
+                <element name="authors">
+                    <element name="Vladislav Rastrusny">
+                        <element name="e-mail" value="FractalizeR@yandex.ru"/>
+                    </element>
+                </element>
+            </metadata>
+        </pharpackage>
+
+        <pharpackage
+                destfile="phar/phpsweetpdo.phar.gz"
+                basedir="./phpSweetPDO"
+                stub="phing/stub.php"
+                alias="phpSweetPDO"
+                compression="gzip">
+            <fileset dir="./phpSweetPDO">
+                <include name="**/**"/>
+            </fileset>
+            <metadata>
+                <element name="version" value="1.0"/>
+                <element name="authors">
+                    <element name="Vladislav Rastrusny">
+                        <element name="e-mail" value="FractalizeR@yandex.ru"/>
+                    </element>
+                </element>
+            </metadata>
+        </pharpackage>
+
+        <pharpackage
+                destfile="phar/phpsweetpdo.phar.bz2"
+                basedir="./phpSweetPDO"
+                stub="phing/stub.php"
+                alias="phpSweetPDO"
+                compression="bzip2">
+            <fileset dir="./phpSweetPDO">
+                <include name="**/**"/>
+            </fileset>
+            <metadata>
+                <element name="version" value="1.0"/>
+                <element name="authors">
+                    <element name="Vladislav Rastrusny">
+                        <element name="e-mail" value="FractalizeR@yandex.ru"/>
+                    </element>
+                </element>
+            </metadata>
+        </pharpackage>
+    </target>
+
+</project>
