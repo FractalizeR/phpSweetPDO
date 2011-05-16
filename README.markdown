@@ -23,11 +23,11 @@ $connection = new \phpSweetPDO\Connection('mysql:dbname=test;host=127.0.0.1', 'r
 $connection->execute("DROP TABLE IF EXISTS `phpsweetpdo`");
 
 //Selecting only one value
-$value = $this->connection->getOneValue("SELECT field2 FROM phpsweetpdo WHERE id=? AND field2 <> ?", array(1, 300));
+$value = $connection->getOneValue("SELECT field2 FROM phpsweetpdo WHERE id=? AND field2 <> ?", array(1, 300));
 echo $value;
 
 //Selecing only one row
-$record = $this->connection->getOneRow("SELECT * FROM phpsweetpdo WHERE id=:id1 AND field2<>:id2",
+$record = $connection->getOneRow("SELECT * FROM phpsweetpdo WHERE id=:id1 AND field2<>:id2",
                                                  array('id1' => 1, 'id2' => 300));
 echo $record->field1 . $record->field2; //Will throw exception if fields do not exist in a row
 
@@ -38,8 +38,8 @@ foreach ($recordset as $currentRow) {
 }
 
 //Output parameters of stored procedures
-$this->connection->execute("CALL phpsweetpdo_out(@test)");
-$result = $this->connection->getOneValue("SELECT @test");
+$connection->execute("CALL phpsweetpdo_out(@test)");
+$result = $connection->getOneValue("SELECT @test");
 
 //INSERT and UPDATE build helpers
 use phpSweetPDO\SQLHelpers\Basic as Helpers;
@@ -67,8 +67,8 @@ The following events can be tracked down:
 *    phpsweetpdo.commit_transaction.started **/** phpsweetpdo.commit_transaction.finished
 *    phpsweetpdo.rollback_transaction.started **/** phpsweetpdo.rollback_transaction.finished
 
-Most events is accompanied by parameters. They are mostly 'sql' (sql query which is executing), 'params' (parameters,
-passed to query), and 'driver_options' - driver options used, if any.
+Most events is accompanied by parameters. They are mostly _sql_ (sql query which is executing), _params_ (parameters,
+passed to query), and _driver_options_ - driver options used, if any.
 
 
 ```php
@@ -84,8 +84,8 @@ $eventDispatcher = new sfEventDispatcher();
 $eventDispatcher->connect('phpsweetpdo.select.started', 'onEvent');
 $eventDispatcher->connect('phpsweetpdo.select.finished', 'onEvent');
 
-$this->_connection = new \phpSweetPDO\Connection('mysql:dbname=test;host=127.0.0.1', 'root', '', $eventDispatcher);
-$this->_connection->select("SELECT * FROM phpsweetpdo ORDER BY field1 ASC");
+$connection = new \phpSweetPDO\Connection('mysql:dbname=test;host=127.0.0.1', 'root', '', $eventDispatcher);
+$connection->select("SELECT * FROM phpsweetpdo ORDER BY field1 ASC");
 //At this point our onEvent() function will be called twice with respected events and will print the query,
 //we tried to execute.
 ```
