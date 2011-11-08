@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="ru.fractalizer.phpsweetpdo" default="make-phar-packages" basedir="./">
+<project name="ru.fractalizer.phpsweetpdo" default="make-phar-packages" basedir="..">
 
     <target name="run-tests-library" description="Running all the tests">
         <phpunit>
             <formatter type="plain" usefile="false"/>
             <batchtest>
+                <classpath path="."/>
                 <fileset dir="tests/Library">
                     <include name="**/*Test*.php"/>
                 </fileset>
@@ -17,6 +18,7 @@
         <phpunit>
             <formatter type="plain" usefile="false"/>
             <batchtest>
+                <classpath path="."/>
                 <fileset dir="tests/Phar">
                     <include name="**/*Test*.php"/>
                 </fileset>
