@@ -22,24 +22,66 @@ namespace phpSweetPDO\SQLHelpers;
 /**
  * Class with basic helpers to build some SQL operators easily
  */
+
 class Basic {
     /**
-     * Insert helper routine. Example of use:
+     * INSERT INTO helper routine. Example of use:
      *
      * <code>
      * <?php
-     * $connection->execute(BasicHelpers::insert("mytable", array("name" => "John Smith")));
+     * $connection->execute(
+     *  BasicHelpers::insert("mytable", array("name" => "John Smith"))
+     * );
      * </code>
      *
+     * It will execute "INSERT INTO mytable (name) VALUES("John Smith")"
+     *
+     * @static
      * @param string $tablename Name of the table to which to insert the data
      * @param array $data Associative array of fieldName => fieldValue to insert into table
-     * @return string Generated SQL statement
+     * @return array Generated SQL statement and data for it
      *
      */
     public static function insert($tablename, array $data) {
-        //Forming initial SQL skeleton INSERT INTO table(field1, field2,...) VAlUES(
+        return self::makeValuesSQL('INSERT INTO', $tablename, $data);
+    }
 
-        $sql = 'INSERT INTO ' . $tablename . '(' . implode(', ', array_keys($data)) . ') VALUES (';
+    /**
+     * REPLACE INTO helper routine. Example of use:
+     *
+     * <code>
+     * <?php
+     * $connection->execute(
+     *  BasicHelpers::replace("mytable", array("name" => "John Smith"))
+     * );
+     * </code>
+     *
+     * It will execute "REPLACE INTO mytable (name) VALUES("John Smith")"
+     *
+     * @static
+     * @param string $tablename Name of the table to which to insert the data
+     * @param array $data Associative array of fieldName => fieldValue to insert into table
+     * @return array Generated SQL statement and data for it
+     *
+     */
+    public static function replace($tablename, array $data) {
+        return self::makeValuesSQL('REPLACE INTO', $tablename, $data);
+    }
+
+    /**
+     * Forms an SQL operator in form $operator $tablename (fields...) VALUES (data...)
+     *
+     * Used in INSERT and REPLACE statements construction
+     *
+     * @static
+     * @param string $operator
+     * @param string $tablename
+     * @param array $data
+     * @return array Generated SQL statement and data for it
+     */
+    protected static function makeValuesSQL($operator, $tablename, array $data) {
+        //Forming initial SQL skeleton INSERT INTO table(field1, field2,...) VAlUES(
+        $sql = $operator . $tablename . '(' . implode(', ', array_keys($data)) . ') VALUES (';
 
         //Now making a parameter for each field (field1 => :field1...)
         $sqlFieldParams = array();
@@ -50,7 +92,10 @@ class Basic {
         //Listing params
         $sql .= implode(', ', $sqlFieldParams) . ')';
 
-        return array($sql, $data);
+        return array(
+            $sql,
+            $data
+        );
     }
 
     /**
@@ -63,7 +108,7 @@ class Basic {
      *
      * @param string $tablename Name of the table to which to insert the data
      * @param array $data Associative array of fieldName => fieldValue to update on table
-     * @param string $criteria WHERE part of the query (without 'WHERE' keyword itself)
+     * @param bool|string $criteria WHERE part of the query (without 'WHERE' keyword itself)
      * @return string Generated SQL statement
      *
      */
@@ -75,6 +120,9 @@ class Basic {
         }
         $sql .= implode(', ', $sqlFieldParams) . ($criteria ? ' WHERE ' . $criteria : "");
 
-        return array($sql, $data);
+        return array(
+            $sql,
+            $data
+        );
     }
 }
