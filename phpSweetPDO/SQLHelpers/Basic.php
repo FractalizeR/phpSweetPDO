@@ -113,12 +113,56 @@ class Basic {
      *
      */
     public static function update($tablename, array $data, $criteria = false) {
-        $sql = 'UPDATE ' . $tablename . ' SET ';
+        $sql            = 'UPDATE ' . $tablename . ' SET ';
         $sqlFieldParams = array();
         foreach ($data as $fieldName => $fieldValue) {
             $sqlFieldParams [] = $fieldName . '=:' . $fieldName;
         }
         $sql .= implode(', ', $sqlFieldParams) . ($criteria ? ' WHERE ' . $criteria : "");
+
+        return array(
+            $sql,
+            $data
+        );
+    }
+
+    /**
+     * Insert helper routine. Example of use:
+     *
+     * <code>
+     * <?php
+     * $connection->execute(BasicHelpers::insert("mytable", array("name" => "John Smith")));
+     * </code>
+     *
+     * @param string $tablename Name of the table to which to insert the data
+     * @param array $data Associative array of fieldName => fieldValue to insert into table
+     * @return string Generated SQL statement
+     *
+     */
+    public static function insertOnDuplicateKeyUpdate($tablename, array $data) {
+
+        //Forming initial SQL skeleton INSERT INTO table(field1, field2,...) VAlUES(
+        $sql = 'INSERT INTO `' . $tablename . '` (' . implode(', ', array_keys($data)) . ') VALUES (';
+
+        //Now making a parameter for each field (field1 => :field1...)
+        $sqlFieldParams = array();
+        foreach ($data as $fieldName => $fieldValue) {
+            $sqlFieldParams [] = ':' . $fieldName;
+        }
+
+        //Listing params
+        $sql .= implode(', ', $sqlFieldParams);
+        $sql .= ')';
+
+        //ON DUPLICATE KEY UPDATE
+        $sql .= ' ON DUPLICATE KEY UPDATE ';
+
+        $sqlFieldParams = array();
+        foreach ($data as $fieldName => $fieldValue) {
+            $sqlFieldParams [] = "{$fieldName} = :{$fieldName}";
+        }
+
+        $sql .= implode(', ', $sqlFieldParams);
 
         return array(
             $sql,
