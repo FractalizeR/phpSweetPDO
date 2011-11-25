@@ -54,19 +54,25 @@ class Connection {
      *
      */
     public function __construct($connectionString, $username, $password, \sfEventDispatcher $eventDispatcher = null,
-        $driverOptions = array()) {
+                                $driverOptions = array()) {
         $this->_eventDispatcher = $eventDispatcher;
 
-        $this->_fireEvent('phpsweetpdo.connect.started',
-                          array('$connection_string' => &$connectionString, 'username' => &$username,
-                               'password' => &$password, 'driver_options' => &$driverOptions));
+        $this->_fireEvent('phpsweetpdo.connect.started', array(
+                '$connection_string' => &$connectionString,
+                'username'           => &$username,
+                'password'           => &$password,
+                'driver_options'     => &$driverOptions
+            ));
 
         $this->_pdoObject = new \PDO($connectionString, $username, $password, $driverOptions);
 
-        $this->_fireEvent('phpsweetpdo.connect.finished',
-                          array('$connection_string' => &$connectionString, 'username' => &$username,
-                               'password' => &$password, 'driver_options' => &$driverOptions,
-                               'result' => $this->_pdoObject));
+        $this->_fireEvent('phpsweetpdo.connect.finished', array(
+                '$connection_string' => &$connectionString,
+                'username'           => &$username,
+                'password'           => &$password,
+                'driver_options'     => &$driverOptions,
+                'result'             => $this->_pdoObject
+            ));
     }
 
     /**
@@ -80,17 +86,23 @@ class Connection {
     public function execute($sql, $params = array(), array $driverOptions = array()) {
         $this->_modifyParams($sql, $params);
 
-        $this->_fireEvent('phpsweetpdo.execute.started',
-                          array('sql' => &$sql, 'params' => &$params, 'driver_options' => &$driverOptions));
+        $this->_fireEvent('phpsweetpdo.execute.started', array(
+                'sql'            => &$sql,
+                'params'         => &$params,
+                'driver_options' => &$driverOptions
+            ));
 
         //Preparing and executing
         $statement = $this->_prepareStatement($sql, $params, $driverOptions);
         $this->_executeStatement($statement, $sql, $params);
         $result = $statement->rowCount();
 
-        $this->_fireEvent('phpsweetpdo.execute.finished',
-                          array('sql' => &$sql, 'params' => &$params, 'driver_options' => &$driverOptions,
-                               'result' => &$result));
+        $this->_fireEvent('phpsweetpdo.execute.finished', array(
+                'sql'            => &$sql,
+                'params'         => &$params,
+                'driver_options' => &$driverOptions,
+                'result'         => &$result
+            ));
 
         return $result;
     }
@@ -106,16 +118,22 @@ class Connection {
     public function select($sql, $params = array(), array $driverOptions = array()) {
         $this->_modifyParams($sql, $params);
 
-        $this->_fireEvent('phpsweetpdo.select.started',
-                          array('sql' => &$sql, 'params' => &$params, 'driver_options' => &$driverOptions));
+        $this->_fireEvent('phpsweetpdo.select.started', array(
+                'sql'            => &$sql,
+                'params'         => &$params,
+                'driver_options' => &$driverOptions
+            ));
 
         $statement = $this->_prepareStatement($sql, $params, $driverOptions);
 
         $result = new Recordset($statement, $params);
 
-        $this->_fireEvent('phpsweetpdo.select.finished',
-                          array('sql' => &$sql, 'params' => &$params, 'driver_options' => &$driverOptions,
-                               'result' => &$result));
+        $this->_fireEvent('phpsweetpdo.select.finished', array(
+                'sql'            => &$sql,
+                'params'         => &$params,
+                'driver_options' => &$driverOptions,
+                'result'         => &$result
+            ));
 
         return $result;
     }
@@ -132,16 +150,22 @@ class Connection {
     public function getOneValue($sql, $params = array(), array $driverOptions = array()) {
         $this->_modifyParams($sql, $params);
 
-        $this->_fireEvent('phpsweetpdo.get_one_value.started',
-                          array('sql' => &$sql, 'params' => &$params, 'driver_options' => &$driverOptions));
+        $this->_fireEvent('phpsweetpdo.get_one_value.started', array(
+                'sql'            => &$sql,
+                'params'         => &$params,
+                'driver_options' => &$driverOptions
+            ));
 
         $statement = $this->_prepareStatement($sql, $params, $driverOptions);
         $this->_executeStatement($statement, $sql, $params);
         $result = $statement->fetchColumn(0);
 
-        $this->_fireEvent('phpsweetpdo.get_one_value.finished',
-                          array('sql' => &$sql, 'params' => &$params, 'driver_options' => &$driverOptions,
-                               'result' => &$result));
+        $this->_fireEvent('phpsweetpdo.get_one_value.finished', array(
+                'sql'            => &$sql,
+                'params'         => &$params,
+                'driver_options' => &$driverOptions,
+                'result'         => &$result
+            ));
 
         return $result;
     }
@@ -158,17 +182,23 @@ class Connection {
     public function getOneRow($sql, $params = array(), array $driverOptions = array()) {
         $this->_modifyParams($sql, $params);
 
-        $this->_fireEvent('phpsweetpdo.get_one_row.started',
-                          array('sql' => &$sql, 'params' => &$params, 'driver_options' => &$driverOptions));
+        $this->_fireEvent('phpsweetpdo.get_one_row.started', array(
+                'sql'            => &$sql,
+                'params'         => &$params,
+                'driver_options' => &$driverOptions
+            ));
 
         $statement = $this->_prepareStatement($sql, $params, $driverOptions);
         $this->_executeStatement($statement, $sql, $params);
 
         $result = $statement->fetchObject('\phpSweetPDO\RecordsetRow');
 
-        $this->_fireEvent('phpsweetpdo.get_one_row.finished',
-                          array('sql' => &$sql, 'params' => &$params, 'driver_options' => &$driverOptions,
-                               'result' => &$result));
+        $this->_fireEvent('phpsweetpdo.get_one_row.finished', array(
+                'sql'            => &$sql,
+                'params'         => &$params,
+                'driver_options' => &$driverOptions,
+                'result'         => &$result
+            ));
 
         return $result;
     }
@@ -215,9 +245,10 @@ class Connection {
      *
      * @param string $sequenceName The optional name of the sequence to return data for
      *
+     * @return mixed
      */
     public function getLastInsertId($sequenceName = "") {
-        $this->_pdoObject->lastInsertId($sequenceName);
+        return $this->_pdoObject->lastInsertId($sequenceName);
     }
 
     /**
@@ -313,7 +344,7 @@ class Connection {
                 throw new \InvalidArgumentException('$sql is array, $params should be empty in this case.');
             }
             $params = $sql[1];
-            $sql = $sql[0];
+            $sql    = $sql[0];
         }
         if (!is_array($params)) {
             $params = array($params);
