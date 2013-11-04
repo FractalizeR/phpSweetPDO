@@ -43,7 +43,7 @@ class Basic {
      *
      */
     public static function insert($tablename, array $data) {
-        return self::makeValuesSQL('INSERT INTO', $tablename, $data);
+        return self::makeValuesSQL('INSERT INTO ', $tablename, $data);
     }
 
     /**
@@ -65,7 +65,7 @@ class Basic {
      *
      */
     public static function replace($tablename, array $data) {
-        return self::makeValuesSQL('REPLACE INTO', $tablename, $data);
+        return self::makeValuesSQL('REPLACE INTO ', $tablename, $data);
     }
 
     /**
