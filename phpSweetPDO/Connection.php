@@ -289,8 +289,8 @@ class Connection {
         if (is_null($this->_eventDispatcher)) {
             return;
         }
-        $event = new \sfEvent($this, $name, $params);
-        $this->_eventDispatcher->notify($event);
+        $event = new \phpSweetPDO\Events\DbEvent($params);
+        $this->_eventDispatcher->dispatch($name, $event);
     }
 
     /**
