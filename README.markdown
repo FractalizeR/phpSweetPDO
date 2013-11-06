@@ -74,15 +74,15 @@ passed to query), and _driver_options_ - driver options used, if any.
 ```php
 <?php
 
-public function onEvent(sfEvent $event) {
+function onEvent(\phpSweetPDO\Events\DbEvent $event) {
     echo $event->getName();
     $params = $event->getParameters();
     echo 'SQL query is ' . $params['sql'];
 }
 
-$eventDispatcher = new sfEventDispatcher();
-$eventDispatcher->connect('phpsweetpdo.select.started', 'onEvent');
-$eventDispatcher->connect('phpsweetpdo.select.finished', 'onEvent');
+$eventDispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+$eventDispatcher->addListener('phpsweetpdo.select.started', 'onEvent');
+$eventDispatcher->addListener('phpsweetpdo.select.finished', 'onEvent');
 
 $connection = new \phpSweetPDO\Connection('mysql:dbname=test;host=127.0.0.1', 'root', '', $eventDispatcher);
 $connection->select("SELECT * FROM phpsweetpdo ORDER BY field1 ASC");
