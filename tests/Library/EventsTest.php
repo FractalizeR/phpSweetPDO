@@ -63,7 +63,7 @@ class EventsTest extends PHPUnit_Framework_TestCase {
         $this->_connection->execute(Helpers::insert('phpsweetpdo', array('field1' => 'Test 2', 'field2' => 20)));
     }
 
-    public function onEvent(sfEvent $event) {
+    public function onEvent(\phpSweetPDO\Events\DbEvent $event) {
         $this->_events[] = $event;
     }
 
