@@ -72,8 +72,10 @@ class EventsTest extends PHPUnit_Framework_TestCase {
      * This method is called after a test is executed.
      */
     protected function tearDown() {
-        $this->_connection->execute("DROP TABLE phpsweetpdo");
-        $this->_connection->close();
+        if(is_a($this->_connection, '\phpSweetPDO\Connection')) {
+            $this->_connection->execute("DROP TABLE phpsweetpdo");
+            $this->_connection->close();
+        }
     }
 
 
