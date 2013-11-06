@@ -52,7 +52,7 @@ $connection->execute($sql); // UPDATE test SET field_name=:field_name WHERE fiel
 
 Events
 =======================================
-If you pass sfEventDispatcher to the constructor of Connection class, it will fire events on it's actions.
+If you pass an object of type `Symfony\Component\EventDispatcher\EventDispatcher` to the constructor of Connection class, it will fire events on it's actions.
 
 You can read more about event dispatcher here: http://components.symfony-project.org/event-dispatcher/documentation.
 
