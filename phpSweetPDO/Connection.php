@@ -53,7 +53,7 @@ class Connection {
      * @param array $driverOptions Various driver specific options for PDO connection. Empty array if no options
      *
      */
-    public function __construct($connectionString, $username, $password, \sfEventDispatcher $eventDispatcher = null,
+    public function __construct($connectionString, $username, $password, \Symfony\Component\EventDispatcher\EventDispatcher $eventDispatcher = null,
                                 $driverOptions = array()) {
         $this->_eventDispatcher = $eventDispatcher;
 
@@ -289,8 +289,8 @@ class Connection {
         if (is_null($this->_eventDispatcher)) {
             return;
         }
-        $event = new \sfEvent($this, $name, $params);
-        $this->_eventDispatcher->notify($event);
+        $event = new \phpSweetPDO\Events\DbEvent($params);
+        $this->_eventDispatcher->dispatch($name, $event);
     }
 
     /**
