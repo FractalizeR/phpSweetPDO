@@ -18,7 +18,7 @@ pear install phing/phing
 After this build process can be run like this:
 
 ```
-Z:\Denwer\usr\local\php5\PEAR\phing.bat -f Z:/Work/PHP/phpSweetPDO/phing/build.xml make-phar-package
+Z:\Denwer\usr\local\php5\PEAR\phing.bat -f Z:/Work/PHP/phpSweetPDO/phing/build.xml make-phar-packages
 ```
 
 Phing targets
@@ -26,7 +26,7 @@ Phing targets
 
 *   run-tests-library to run all library tests
 *   run-tests-phar checks if your system can use generated uncompressed phars
-*   make-phar-package builds all phar packages
+*   make-phar-packages builds all phar packages
 
 Please note, that in order to build .phar files, you need to set
 ```
