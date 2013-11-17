@@ -40,15 +40,15 @@ class EventsTest extends PHPUnit_Framework_TestCase {
     protected $_events = array();
 
     protected function setUp() {
-        @include_once "SymfonyComponents/EventDispatcher/sfEventDispatcher.php";
-        if (!class_exists('sfEventDispatcher')) {
-            $this->markTestSkipped("sfEventDispatcher is not installed. Skipping test.");
+        @include_once "Symfony/Component/EventDispatcher/autoloader.php";
+        if (!class_exists('\Symfony\Component\EventDispatcher\EventDispatcher')) {
+            $this->markTestSkipped("EventDispatcher is not installed. Skipping test.");
             return;
         }
 
-        $eventDispatcher = new sfEventDispatcher();
-        $eventDispatcher->connect('phpsweetpdo.select.started', array($this, 'onEvent'));
-        $eventDispatcher->connect('phpsweetpdo.select.finished', array($this, 'onEvent'));
+        $eventDispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+        $eventDispatcher->addListener('phpsweetpdo.select.started', array($this, 'onEvent'));
+        $eventDispatcher->addListener('phpsweetpdo.select.finished', array($this, 'onEvent'));
 
         $this->_connection =
                 new \phpSweetPDO\Connection('mysql:dbname=test;host=127.0.0.1', 'root', '', $eventDispatcher);
@@ -63,7 +63,7 @@ class EventsTest extends PHPUnit_Framework_TestCase {
         $this->_connection->execute(Helpers::insert('phpsweetpdo', array('field1' => 'Test 2', 'field2' => 20)));
     }
 
-    public function onEvent(sfEvent $event) {
+    public function onEvent(\phpSweetPDO\Events\DbEvent $event) {
         $this->_events[] = $event;
     }
 
@@ -72,8 +72,10 @@ class EventsTest extends PHPUnit_Framework_TestCase {
      * This method is called after a test is executed.
      */
     protected function tearDown() {
-        $this->_connection->execute("DROP TABLE phpsweetpdo");
-        $this->_connection->close();
+        if(is_a($this->_connection, '\phpSweetPDO\Connection')) {
+            $this->_connection->execute("DROP TABLE phpsweetpdo");
+            $this->_connection->close();
+        }
     }
 
 
