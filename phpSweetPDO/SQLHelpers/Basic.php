@@ -81,7 +81,7 @@ class Basic {
      */
     protected static function makeValuesSQL($operator, $tablename, array $data) {
         //Forming initial SQL skeleton INSERT INTO table(field1, field2,...) VAlUES(
-        $sql = $operator . $tablename . '(' . implode(', ', array_keys($data)) . ') VALUES (';
+        $sql = $operator . ' `' . $tablename . '` (' . implode(', ', array_keys($data)) . ') VALUES (';
 
         //Now making a parameter for each field (field1 => :field1...)
         $sqlFieldParams = array();
@@ -113,7 +113,7 @@ class Basic {
      *
      */
     public static function update($tablename, array $data, $criteria = false) {
-        $sql            = 'UPDATE ' . $tablename . ' SET ';
+        $sql = 'UPDATE `' . $tablename . '` SET ';
         $sqlFieldParams = array();
         foreach ($data as $fieldName => $fieldValue) {
             $sqlFieldParams [] = $fieldName . '=:' . $fieldName;
