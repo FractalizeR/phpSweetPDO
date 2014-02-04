@@ -1,0 +1,11 @@
+{
+    "name": "FractalizeR/phpSweetPDO",
+    "autoload": {
+        "psr-4": {
+            "phpSweetPDO\\": "src/"
+        }
+    },
+    "require": {
+        "ext-pdo_mysql": "*"
+    }
+}
