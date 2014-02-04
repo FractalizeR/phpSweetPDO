@@ -17,7 +17,7 @@
  * ========================================================================
  */
 
-require_once __DIR__ . '/../../../phpSweetPDO/Autoloader.php';
+require_once __DIR__ . '/../../../src/Autoloader.php';
 
 \phpSweetPDO\Autoloader::register();
 
