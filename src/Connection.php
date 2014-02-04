@@ -73,6 +73,9 @@ class Connection
             )
         );
 
+        $exceptionControlDrvOptions = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
+        $driverOptions = array_merge($driverOptions, $exceptionControlDrvOptions);
+
         $this->_pdoObject = new \PDO($connectionString, $username, $password, $driverOptions);
 
         $this->_fireEvent(
