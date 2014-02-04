@@ -29,10 +29,10 @@
     <target name="make-phar-packages" description="Make autoloading phar archives">
         <pharpackage
                 destfile="phar/phpsweetpdo.phar"
-                basedir="./phpSweetPDO"
+                basedir="src"
                 stub="phing/stub.php"
                 alias="phpSweetPDO">
-            <fileset dir="./phpSweetPDO">
+            <fileset dir="src">
                 <include name="**/**"/>
             </fileset>
             <metadata>
@@ -47,11 +47,11 @@
 
         <pharpackage
                 destfile="phar/phpsweetpdo.phar.gz"
-                basedir="./phpSweetPDO"
+                basedir="src"
                 stub="phing/stub.php"
                 alias="phpSweetPDO"
                 compression="gzip">
-            <fileset dir="./phpSweetPDO">
+            <fileset dir="src">
                 <include name="**/**"/>
             </fileset>
             <metadata>
@@ -66,11 +66,11 @@
 
         <pharpackage
                 destfile="phar/phpsweetpdo.phar.bz2"
-                basedir="./phpSweetPDO"
+                basedir="src"
                 stub="phing/stub.php"
                 alias="phpSweetPDO"
                 compression="bzip2">
-            <fileset dir="./phpSweetPDO">
+            <fileset dir="src">
                 <include name="**/**"/>
             </fileset>
             <metadata>
