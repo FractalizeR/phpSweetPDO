@@ -20,6 +20,7 @@
 namespace phpSweetPDO;
 
 use phpSweetPDO\Exceptions\DbException;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class, representing dabatase connection
@@ -37,7 +38,7 @@ class Connection
     /**
      * Optional event dispatcher used to track various library events
      *
-     * @var \Symfony\Component\EventDispatcher\EventDispatcher
+     * @var EventDispatcher
      */
     protected $_eventDispatcher;
 
@@ -50,7 +51,7 @@ class Connection
      * @param string $connectionString PDO connection string ('mysql:dbname=testdb;host=127.0.0.1')
      * @param string $username Username to use when calling PDO
      * @param string $password Password to use when calling PDO
-     * @param \Symfony\Component\EventDispatcher\EventDispatcher $eventDispatcher Event dispatcher to use when reporting library events. Null if no reporting needed
+     * @param EventDispatcher $eventDispatcher Event dispatcher to use when reporting library events. Null if no reporting needed
      * @param array $driverOptions Various driver specific options for PDO connection. Empty array if no options
      *
      */
@@ -58,7 +59,7 @@ class Connection
         $connectionString,
         $username,
         $password,
-        \Symfony\Component\EventDispatcher\EventDispatcher $eventDispatcher = null,
+        EventDispatcher $eventDispatcher = null,
         $driverOptions = array()
     ) {
         $this->_eventDispatcher = $eventDispatcher;
@@ -343,7 +344,7 @@ class Connection
         if (is_null($this->_eventDispatcher)) {
             return;
         }
-        $event = new \phpSweetPDO\Events\DbEvent($params);
+        $event = new Events\DbEvent($params);
         $this->_eventDispatcher->dispatch($name, $event);
     }
 

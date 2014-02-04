@@ -19,11 +19,13 @@
 
 namespace phpSweetPDO\Events;
 
+use Symfony\Component\EventDispatcher\Event;
+
 /**
  * Database connection events class
  *
  */
-class DbEvent extends \Symfony\Component\EventDispatcher\Event
+class DbEvent extends Event
 {
 
     public $params;
