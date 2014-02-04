@@ -29,12 +29,13 @@ use phpSweetPDO\Exceptions\DbException;
  * @see rewind() method to fetch data from DB
  *
  */
-class Recordset implements \Iterator, \Countable {
+class Recordset implements \Iterator, \Countable
+{
 
     /**
      * PDO statement object
      *
-     * @var PDOStatement
+     * @var \PDOStatement
      */
     private $_statement = null;
 
@@ -71,7 +72,8 @@ class Recordset implements \Iterator, \Countable {
      * @param \PDOStatement $statement Statement, that should be wrapped to this recordset
      * @param array $params Query parameters
      */
-    public function __construct(\PDOStatement $statement, array $params) {
+    public function __construct(\PDOStatement $statement, array $params)
+    {
         $this->_statement = $statement;
         $this->_params = $params;
         $this->_refresh();
@@ -82,7 +84,8 @@ class Recordset implements \Iterator, \Countable {
      * This function is called inside @see rewind()
      *
      */
-    protected function _refresh() {
+    protected function _refresh()
+    {
         $this->_statement->execute($this->_params);
         if ($this->_statement->errorCode() !== '00000') {
             throw new DbException($this->_statement->errorInfo(), $this->_statement->queryString);
@@ -93,9 +96,10 @@ class Recordset implements \Iterator, \Countable {
     /**
      *
      * @see Iterator::current()
-     * @return null|\RecordsetRow
+     * @return null|\phpSweetPDO\RecordsetRow
      */
-    public function current() {
+    public function current()
+    {
         return $this->_currentRowObj;
     }
 
@@ -104,21 +108,25 @@ class Recordset implements \Iterator, \Countable {
      * @see Iterator::key()
      * @return int
      */
-    public function key() {
+    public function key()
+    {
         return $this->_currentRowIndex;
     }
 
     /**
      *
      * @see Iterator::next()
-     * @return null|\RecordsetRow
+     * @throws Exceptions\DbException
+     * @return null|\phpSweetPDO\RecordsetRow
      */
-    public function next() {
+    public function next()
+    {
         $this->_currentRowObj = $this->_statement->fetchObject('\phpSweetPDO\RecordsetRow');
         if ($this->_statement->errorCode() !== '00000') {
             throw new DbException($this->_statement->errorInfo(), $this->_statement->queryString);
         }
         $this->_currentRowIndex++;
+
         return $this->_currentRowObj;
     }
 
@@ -126,7 +134,8 @@ class Recordset implements \Iterator, \Countable {
      *
      * @see Iterator::rewind()
      */
-    public function rewind() {
+    public function rewind()
+    {
         //Dirty hack because rewind() is called before entering the loop
         //and on object creation we already have query executed
         if ($this->_needsRefresh) {
@@ -145,7 +154,8 @@ class Recordset implements \Iterator, \Countable {
      * @see Iterator::valid()
      * @return bool
      */
-    public function valid() {
+    public function valid()
+    {
         return $this->_currentRowObj !== false;
     }
 
@@ -154,7 +164,8 @@ class Recordset implements \Iterator, \Countable {
      * @see Countable::count()
      * @return int
      */
-    public function count() {
+    public function count()
+    {
         return $this->_statement->rowCount();
     }
 
@@ -163,14 +174,16 @@ class Recordset implements \Iterator, \Countable {
      *
      * @return void
      */
-    public function close() {
+    public function close()
+    {
         $this->_statement->closeCursor();
     }
 
     /**
      * Destructor
      */
-    function __destruct() {
+    function __destruct()
+    {
         $this->close();
     }
 }

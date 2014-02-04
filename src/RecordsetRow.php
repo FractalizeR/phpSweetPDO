@@ -26,7 +26,8 @@ namespace phpSweetPDO;
  *
  */
 
-class RecordsetRow implements \ArrayAccess {
+class RecordsetRow implements \ArrayAccess
+{
 
     /**
      * Implemented to prevent reading inexisting fields
@@ -35,7 +36,8 @@ class RecordsetRow implements \ArrayAccess {
      *
      * @throws \LogicException
      */
-    public function __get($name) {
+    public function __get($name)
+    {
         throw new \LogicException('Attempt to read nonexistent recordset field: ' . $name);
     }
 
@@ -54,7 +56,8 @@ class RecordsetRow implements \ArrayAccess {
      * <p>
      *       The return value will be casted to boolean if non-boolean was returned.
      */
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return isset($this->$offset);
     }
 
@@ -70,7 +73,8 @@ class RecordsetRow implements \ArrayAccess {
      *
      * @return mixed Can return all value types.
      */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return $this->$offset;
     }
 
@@ -83,13 +87,14 @@ class RecordsetRow implements \ArrayAccess {
      * @param mixed $offset <p>
      *                      The offset to assign the value to.
      * </p>
-     * @param mixed $value  <p>
+     * @param mixed $value <p>
      *                      The value to set.
      * </p>
      *
      * @return void
      */
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         $this->$offset = $value;
     }
 
@@ -105,7 +110,8 @@ class RecordsetRow implements \ArrayAccess {
      *
      * @return void
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         unset($this->$offset);
     }
 }

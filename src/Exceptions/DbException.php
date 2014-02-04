@@ -23,7 +23,8 @@ namespace phpSweetPDO\Exceptions;
  * Database connection exception class
  *
  */
-class DbException extends \Exception {
+class DbException extends \Exception
+{
 
     /**
      * SQLState of exception
@@ -64,13 +65,16 @@ class DbException extends \Exception {
      * @param string $sqlStatement SQL statement
      * @param array $sqlParams Arguments, passed to SQL statement
      */
-    public function __construct(array $errorInfo, $sqlStatement = '', $sqlParams = array()) {
+    public function __construct(array $errorInfo, $sqlStatement = '', $sqlParams = array())
+    {
         $this->sqlState = $errorInfo[0];
         $this->driverErrorMessage = $errorInfo[2];
         $this->driverErrorCode = $errorInfo[1];
         $this->sqlStatement = $sqlStatement;
         $this->sqlParams = $sqlParams;
         $sqlParamsText = var_export($sqlParams, true);
-        parent::__construct("Database error [{$errorInfo[0]}]: {$errorInfo[2]}, driver error code is {$errorInfo[1]} SQL: $sqlStatement Arguments: $sqlParamsText");
+        parent::__construct(
+            "Database error [{$errorInfo[0]}]: {$errorInfo[2]}, driver error code is {$errorInfo[1]} SQL: $sqlStatement Arguments: $sqlParamsText"
+        );
     }
 }

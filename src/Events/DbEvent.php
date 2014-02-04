@@ -17,26 +17,25 @@
  * ========================================================================
  */
 
-namespace phpSweetPDO;
+namespace phpSweetPDO\Events;
 
 /**
- * Simple autoloader for phpSweetPDO
+ * Database connection events class
+ *
  */
-class Autoloader {
+class DbEvent extends \Symfony\Component\EventDispatcher\Event
+{
 
-    public static function load($className) {
-        if (strpos($className, "phpSweetPDO") !== 0) {
-            return;
-        }
+    public $params;
 
-        $pos = strpos($className, '\\');
-        $className = substr($className, $pos + 1);
-
-        require_once(__DIR__ . '/' . strtr($className, '\\_', '//') . '.php');
+    public function __construct($params = null)
+    {
+        $this->params = $params;
     }
 
-    public static function register() {
-        spl_autoload_register(__NAMESPACE__ . '\\Autoloader::load');
+    public function getParameters()
+    {
+        return $this->params;
     }
 
 }

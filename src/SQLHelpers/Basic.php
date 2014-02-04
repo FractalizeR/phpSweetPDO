@@ -23,7 +23,8 @@ namespace phpSweetPDO\SQLHelpers;
  * Class with basic helpers to build some SQL operators easily
  */
 
-class Basic {
+class Basic
+{
     /**
      * INSERT INTO helper routine. Example of use:
      *
@@ -42,7 +43,8 @@ class Basic {
      * @return array Generated SQL statement and data for it
      *
      */
-    public static function insert($tablename, array $data) {
+    public static function insert($tablename, array $data)
+    {
         return self::makeValuesSQL('INSERT INTO ', $tablename, $data);
     }
 
@@ -64,7 +66,8 @@ class Basic {
      * @return array Generated SQL statement and data for it
      *
      */
-    public static function replace($tablename, array $data) {
+    public static function replace($tablename, array $data)
+    {
         return self::makeValuesSQL('REPLACE INTO ', $tablename, $data);
     }
 
@@ -79,7 +82,8 @@ class Basic {
      * @param array $data
      * @return array Generated SQL statement and data for it
      */
-    protected static function makeValuesSQL($operator, $tablename, array $data) {
+    protected static function makeValuesSQL($operator, $tablename, array $data)
+    {
         //Forming initial SQL skeleton INSERT INTO table(field1, field2,...) VAlUES(
         $sql = $operator . ' `' . $tablename . '` (' . implode(', ', array_keys($data)) . ') VALUES (';
 
@@ -112,7 +116,8 @@ class Basic {
      * @return string Generated SQL statement
      *
      */
-    public static function update($tablename, array $data, $criteria = false) {
+    public static function update($tablename, array $data, $criteria = false)
+    {
         $sql = 'UPDATE `' . $tablename . '` SET ';
         $sqlFieldParams = array();
         foreach ($data as $fieldName => $fieldValue) {
@@ -139,7 +144,8 @@ class Basic {
      * @return string Generated SQL statement
      *
      */
-    public static function insertOnDuplicateKeyUpdate($tablename, array $data) {
+    public static function insertOnDuplicateKeyUpdate($tablename, array $data)
+    {
 
         //Forming initial SQL skeleton INSERT INTO table(field1, field2,...) VAlUES(
         $sql = 'INSERT INTO `' . $tablename . '` (' . implode(', ', array_keys($data)) . ') VALUES (';
