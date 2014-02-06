@@ -297,7 +297,7 @@ class Connection {
         $statement = $this->_pdoObject->prepare($sql, $driverOptions);
 
         if (!$statement) {
-            throw new DbException($statement->errorInfo(), $sql, $params, $this->_errorReporting);
+            throw new DbException($this->_pdoObject->errorInfo(), $sql, $params, $this->_errorReporting);
         }
 
         return $statement;
@@ -315,9 +315,14 @@ class Connection {
      * @return void
      */
     protected function _executeStatement($statement, $sql, $params) {
-        if ((!$statement->execute($params)) and ($statement->errorCode() != '00000')) {
-            throw new DbException($statement->errorInfo(), $sql, $params, $this->_errorReporting);
+        if ((!$statement->execute($params))) {
+            throw new DbException($this->_pdoObject->errorInfo(), $sql, $params, $this->_errorReporting);
         }
+
+        if ($statement->errorCode() == '00000') {
+            return;
+        }
+        throw new DbException($statement->errorInfo(), $sql, $params, $this->_errorReporting);
     }
 
 
