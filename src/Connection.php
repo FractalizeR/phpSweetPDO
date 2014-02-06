@@ -69,7 +69,7 @@ class Connection {
                                  'password'           => &$password, 'driver_options' => &$driverOptions));
 
         $exceptionControlDrvOptions = array (\PDO::ATTR_ERRMODE => \PDO::ERRMODE_SILENT);
-        $driverOptions              = array_merge($driverOptions, $exceptionControlDrvOptions);
+        $driverOptions = array_replace($driverOptions, $exceptionControlDrvOptions);
 
         $this->_pdoObject = new \PDO($connectionString, $username, $password, $driverOptions);
 
