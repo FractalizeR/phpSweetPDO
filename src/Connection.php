@@ -48,6 +48,20 @@ class Connection {
     protected $_errorReporting = DbException::ON_ERROR_REPORT_ERROR_ONLY;
 
     /**
+     * @param int $errorReporting
+     */
+    public function setErrorReporting($errorReporting) {
+        $this->_errorReporting = $errorReporting;
+    }
+
+    /**
+     * @return int
+     */
+    public function getErrorReporting() {
+        return $this->_errorReporting;
+    }
+
+    /**
      * Default constructor.
      *
      * If you provide $eventDispatcher to the constructor, most calls to library's methods will generate appropriate event.
