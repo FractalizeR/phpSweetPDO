@@ -16,6 +16,6 @@
     },
 
     "require": {
-        "ext-pdo_mysql": "*"
+        "ext-pdo": "*"
     }
 }
