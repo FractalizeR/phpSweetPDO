@@ -61,8 +61,8 @@ The following events can be tracked down:
 *    phpsweetpdo.connect.started **/** phpsweetpdo.connect.finished
 *    phpsweetpdo.execute.started **/** phpsweetpdo.execute.finished
 *    phpsweetpdo.select.started **/** phpsweetpdo.select.finished
-*    phpsweetpdo.get_one.value_started **/** phpsweetpdo.get_one_value.finished
-*    phpsweetpdo.get_one.row_started **/** phpsweetpdo.get_one_row.finished
+*    phpsweetpdo.get_one_value.started **/** phpsweetpdo.get_one_value.finished
+*    phpsweetpdo.get_one_row.started **/** phpsweetpdo.get_one_row.finished
 *    phpsweetpdo.begin_transaction.started **/** phpsweetpdo.begin_transaction.finished
 *    phpsweetpdo.commit_transaction.started **/** phpsweetpdo.commit_transaction.finished
 *    phpsweetpdo.rollback_transaction.started **/** phpsweetpdo.rollback_transaction.finished
